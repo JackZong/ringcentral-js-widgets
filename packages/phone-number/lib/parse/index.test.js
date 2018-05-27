@@ -12,11 +12,14 @@ describe('parse', () => {
     expect(parse({ input: '' }).isValid).toBe(false);
     expect(parse({ input: '+*234' }).isValid).toBe(false);
     expect(parse({ input: '+' }).isValid).toBe(false);
+<<<<<<< HEAD
     expect(parse({ input: '#' }).isValid).toBe(false);
     expect(parse({ input: '-' }).isValid).toBe(false);
     expect(parse({ input: '#-' }).isValid).toBe(false);
     expect(parse({ input: '_' }).isValid).toBe(false);
     expect(parse({ input: '_#' }).isValid).toBe(false);
+=======
+>>>>>>> sync from upstream (#16)
   });
 
   test('parse correct number', () => {
@@ -25,8 +28,12 @@ describe('parse', () => {
       isServiceNumber: false,
       hasInvalidChars: false,
       isExtension: false,
+<<<<<<< HEAD
       parsedCountry: 'US',
       parsedNumber: '6503618700',
+=======
+      country: 'US',
+>>>>>>> sync from upstream (#16)
       phoneNumber: '+16503618700',
       extension: null,
       isValid: true,
@@ -40,8 +47,12 @@ describe('parse', () => {
       isServiceNumber: false,
       hasInvalidChars: false,
       isExtension: false,
+<<<<<<< HEAD
       parsedCountry: 'GB',
       parsedNumber: '1473748635',
+=======
+      country: 'GB',
+>>>>>>> sync from upstream (#16)
       phoneNumber: '+441473748635',
       extension: null,
       isValid: true,
@@ -55,9 +66,14 @@ describe('parse', () => {
       isServiceNumber: false,
       hasInvalidChars: false,
       isExtension: false,
+<<<<<<< HEAD
       parsedCountry: 'US',
       phoneNumber: '16503618700',
       parsedNumber: '6503618700',
+=======
+      country: 'US',
+      phoneNumber: '16503618700',
+>>>>>>> sync from upstream (#16)
       extension: null,
       isValid: true,
       hasPlus: false,
@@ -70,9 +86,14 @@ describe('parse', () => {
       isServiceNumber: false,
       hasInvalidChars: false,
       isExtension: false,
+<<<<<<< HEAD
       parsedCountry: 'US',
       phoneNumber: '6503618700',
       parsedNumber: '6503618700',
+=======
+      country: 'US',
+      phoneNumber: '6503618700',
+>>>>>>> sync from upstream (#16)
       extension: null,
       isValid: true,
       hasPlus: false,
@@ -85,8 +106,12 @@ describe('parse', () => {
       isServiceNumber: false,
       hasInvalidChars: false,
       isExtension: false,
+<<<<<<< HEAD
       parsedCountry: 'US',
       parsedNumber: '6503618700',
+=======
+      country: 'US',
+>>>>>>> sync from upstream (#16)
       phoneNumber: '6503618700',
       extension: '123',
       isValid: true,
@@ -97,9 +122,14 @@ describe('parse', () => {
       isServiceNumber: false,
       hasInvalidChars: false,
       isExtension: false,
+<<<<<<< HEAD
       parsedCountry: 'US',
       phoneNumber: '+16503618700',
       parsedNumber: '6503618700',
+=======
+      country: 'US',
+      phoneNumber: '+16503618700',
+>>>>>>> sync from upstream (#16)
       extension: '123',
       isValid: true,
       hasPlus: true,
@@ -112,8 +142,12 @@ describe('parse', () => {
       isServiceNumber: true,
       hasInvalidChars: false,
       isExtension: false,
+<<<<<<< HEAD
       parsedCountry: null,
       parsedNumber: null,
+=======
+      country: null,
+>>>>>>> sync from upstream (#16)
       phoneNumber: '*123',
       extension: null,
       isValid: true,
@@ -127,8 +161,12 @@ describe('parse', () => {
       isServiceNumber: false,
       hasInvalidChars: false,
       isExtension: true,
+<<<<<<< HEAD
       parsedCountry: null,
       parsedNumber: null,
+=======
+      country: null,
+>>>>>>> sync from upstream (#16)
       phoneNumber: '123456',
       extension: null,
       isValid: true,
@@ -141,8 +179,12 @@ describe('parse', () => {
       isServiceNumber: false,
       hasInvalidChars: false,
       isExtension: false,
+<<<<<<< HEAD
       parsedCountry: null,
       parsedNumber: null,
+=======
+      country: null,
+>>>>>>> sync from upstream (#16)
       phoneNumber: '+123456',
       extension: null,
       isValid: true,

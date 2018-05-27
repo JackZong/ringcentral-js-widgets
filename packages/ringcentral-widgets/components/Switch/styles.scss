@@ -53,7 +53,11 @@ $slider-size: #{$switch-height - 2 * $switch-padding};
     background-color: $smoke;
   }
   input:checked + .slider {
+<<<<<<< HEAD
     background-color: $primary-color;
+=======
+    background-color: $rc-blue;
+>>>>>>> sync from upstream (#16)
   }
   input:focus + .slider {
     box-shadow: 0 0 1px #ccc;

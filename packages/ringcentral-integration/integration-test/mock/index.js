@@ -31,8 +31,11 @@ const conferencingBody = require('./data/conferencing.json');
 const activeCallsBody = require('./data/activeCalls.json');
 const meetingBody = require('./data/meeting');
 const serviceInfoBody = require('./data/serviceInfo');
+<<<<<<< HEAD
 const conferenceCallBody = require('./data/conferenceCall');
 const numberParseBody = require('./data/numberParse');
+=======
+>>>>>>> sync from upstream (#16)
 
 const mockServer = 'http://whatever';
 export function createSDK(options = {}) {

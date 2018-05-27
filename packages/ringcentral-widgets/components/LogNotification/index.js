@@ -43,7 +43,11 @@ export default function LogNotification(
               {
                 onSave ? (
                   <Button
+<<<<<<< HEAD
                     className={classnames(styles.saveButton, styles.selected)}
+=======
+                    className={styles.saveButton}
+>>>>>>> sync from upstream (#16)
                     onClick={() => onSave()}>
                     {i18n.getString('save', currentLocale)}
                   </Button>

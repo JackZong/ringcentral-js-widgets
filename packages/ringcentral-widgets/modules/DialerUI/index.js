@@ -165,7 +165,10 @@ export default class DialerUI extends RcModule {
         await hook({
           phoneNumber,
           recipient,
+<<<<<<< HEAD
           fromNumber,
+=======
+>>>>>>> sync from upstream (#16)
         });
       }
       try {

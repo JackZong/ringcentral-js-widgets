@@ -15,15 +15,34 @@
 .logIcon {
   display: flex;
   cursor: pointer;
+<<<<<<< HEAD
 
   &.disabled {
     cursor: not-allowed;
     rect {
       fill: $coin;
+=======
+  position: absolute;
+  bottom: 25px;
+  right: 20px;
+  height: 26px;
+  display: inline-block;
+
+  &.disabled {
+    cursor: not-allowed;
+    g {
+      stroke: $coin;
+>>>>>>> sync from upstream (#16)
     }
     path {
       stroke: $coin;
     }
+<<<<<<< HEAD
+=======
+    circle {
+      stroke: $coin;
+    }
+>>>>>>> sync from upstream (#16)
   }
 }
 

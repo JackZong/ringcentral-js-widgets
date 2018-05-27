@@ -176,6 +176,7 @@ export default function SettingsPanel({
       <span className={classnames(disableAutoLogEnabled && styles.disableText)}>
         {i18n.getString('autoLogCalls', currentLocale)}
       </span>
+<<<<<<< HEAD
     </IconLine>
   ) :
     null;
@@ -192,6 +193,8 @@ export default function SettingsPanel({
       <span className={classnames(disableAutoLogNotesEnabled && styles.disableText)}>
         {i18n.getString('autoLogNotes', currentLocale)}
       </span>
+=======
+>>>>>>> sync from upstream (#16)
     </IconLine>
   ) :
     null;

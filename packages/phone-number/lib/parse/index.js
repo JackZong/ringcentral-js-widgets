@@ -8,8 +8,12 @@ const extensionDelimiter = /[*#]/g;
 export default function parse({ input, countryCode = 'US' }) {
   const result = {
     input,
+<<<<<<< HEAD
     parsedCountry: null,
     parsedNumber: null,
+=======
+    country: null,
+>>>>>>> sync from upstream (#16)
     isValid: true,
     hasInvalidChars: invalidCharsRegExp.test(input),
     isExtension: false,
@@ -17,9 +21,14 @@ export default function parse({ input, countryCode = 'US' }) {
     hasPlus: false,
     phoneNumber: null,
     extension: null,
+<<<<<<< HEAD
 
   };
   const cleanInput = (input || '').replace(cleanRegex, '');
+=======
+  };
+  const cleanInput = input.replace(cleanRegex, '');
+>>>>>>> sync from upstream (#16)
   const startWithPlus = cleanInput[0] === '+';
   const withoutPlus = cleanInput.replace(plusRegex, '');
   const startWithStar = withoutPlus[0] === '*';
@@ -38,12 +47,16 @@ export default function parse({ input, countryCode = 'US' }) {
       if (tokens[0] && tokens[0].length) {
         result.hasPlus = true;
         result.phoneNumber = `+${tokens[0]}`;
+<<<<<<< HEAD
         const {
           country = null,
           phone = null,
         } = parseNumber(result.phoneNumber, countryCode);
         result.parsedCountry = country;
         result.parsedNumber = phone;
+=======
+        result.country = parseNumber(result.phoneNumber, countryCode).country || null;
+>>>>>>> sync from upstream (#16)
         if (tokens[1] && tokens[1].length) {
           result.extension = tokens[1];
         }
@@ -53,12 +66,16 @@ export default function parse({ input, countryCode = 'US' }) {
     } else if (tokens[0] && tokens[0].length) {
       if (tokens[0].length > 6) {
         result.phoneNumber = tokens[0];
+<<<<<<< HEAD
         const {
           country = null,
           phone = null,
         } = parseNumber(result.phoneNumber, countryCode);
         result.parsedCountry = country;
         result.parsedNumber = phone;
+=======
+        result.country = parseNumber(result.phoneNumber, countryCode).country || null;
+>>>>>>> sync from upstream (#16)
         if (tokens[1] && tokens[1].length) {
           result.extension = tokens[1];
         }

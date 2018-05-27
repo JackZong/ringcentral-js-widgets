@@ -179,6 +179,7 @@ describe('format', () => {
       type: formatTypes.international,
     }));
   });
+<<<<<<< HEAD
 
 
   test('should normalize numbers into E164 format', () => {
@@ -315,5 +316,7 @@ describe('format', () => {
     }));
   });
 
+=======
+>>>>>>> sync from upstream (#16)
 });
 
