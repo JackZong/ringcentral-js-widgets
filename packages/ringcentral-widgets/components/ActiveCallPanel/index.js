@@ -12,6 +12,7 @@ import ActiveCallPad from '../ActiveCallPad';
 import callCtrlLayout from '../../lib/callCtrlLayout';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
+import MergeInfo from './MergeInfo';
 
 class ActiveCallPanel extends React.Component {
   constructor(props) {
@@ -20,7 +21,7 @@ class ActiveCallPanel extends React.Component {
       displayedProfiles: [],
       remains: 0,
       isPartiesModalOpen: false, // todo: for rendering the parties modal when conferecing
-      resizeFunc: throttle(() => this.handleResize(this.props)),
+      resizeFunc: throttle(() => this.handleResize(this.props))
     };
   }
 
@@ -44,7 +45,6 @@ class ActiveCallPanel extends React.Component {
       }
     }
   }
-
   componentDidMount() {
     this.handleResize(this.props);
     window.addEventListener('resize', this.state.resizeFunc);
@@ -105,8 +105,10 @@ class ActiveCallPanel extends React.Component {
       addDisabled,
       mergeDisabled,
     } = this.props;
+    console.log(this.props.calls,'calls')
+    console.log(this.props,'props')
 
-    const timeCounter =
+    const timeCounter = startTime ?
       (
         <div className={styles.timeCounter}>
           {
@@ -115,7 +117,7 @@ class ActiveCallPanel extends React.Component {
             : <span aria-hidden="true">&nbsp;</span>
           }
         </div>
-      );
+      ) : null;
     const backHeader = (<BackHeader
       onBackClick={onBackButtonClick}
       backButton={(
@@ -130,7 +132,9 @@ class ActiveCallPanel extends React.Component {
       <div className={styles.root}>
         {backHeader}
         <Panel className={styles.panel}>
-          {timeCounter}
+          {
+            layout !== callCtrlLayout.mergeCtrl ? timeCounter : null
+          }
           {
             layout === callCtrlLayout.conferenceCtrl
               ? (
@@ -140,7 +144,16 @@ class ActiveCallPanel extends React.Component {
                   onClick={() => this.openPartiesModal()}
                 />
               )
-              : (<CallInfo
+              :
+            layout === callCtrlLayout.mergeCtrl
+              ? (
+                <MergeInfo
+                  calls={calls}
+                  timeCounter={timeCounter}
+                />
+              )
+              :
+              (<CallInfo
                 currentLocale={currentLocale}
                 nameMatches={nameMatches}
                 fallBackName={fallBackName}

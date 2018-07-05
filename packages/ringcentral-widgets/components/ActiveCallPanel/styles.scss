@@ -3,7 +3,7 @@
 @import '../../lib/commonStyles/fonts.scss';
 
 $userInfoHeight: 140px;
-$conferenceAvatarSize: 55px;;
+$conferenceAvatarSize: 51px;
 
 .root {
   @include full-size;
@@ -130,12 +130,11 @@ $conferenceAvatarSize: 55px;;
   text-align:center;
   line-height:1.5;
   font-family: sans-serif;
-  
   box-sizing: border-box;
   .info{
     font-size: 15px;
   }
-  
+
   .avatarContainer{
     padding: 0 15px;
     text-align: center;
@@ -177,5 +176,82 @@ $conferenceAvatarSize: 55px;;
     .avatar+.avatar{
       margin-left:-20px;
     }
+  }
+}
+.mergeInfo {
+  //margin-bottom: 42px;
+  min-height: 115px;
+  .merge_item {
+    padding: 0 17px 0 20px;
+    height: 30px;
+    line-height: 30px;
+    margin-top: 20px;
+    opacity: 0.8;
+    color: #666;
+    font-family: Helvetica;
+    min-height: 30px;
+    &:after {
+      content: " ";
+      clear: both;
+      display: block;
+      visibility: hidden;
+      height: 0;
+      overflow: hidden;
+    }
+    .merge_avatar {
+      float: left;
+      width: 65px;
+      max-height: 30px;
+      text-align: left;
+      img {
+        width: 30px;
+        height: 30px;
+        border: solid 2px #ffffff;
+        border-radius: 100%;
+      }
+    }
+    .merge_avatar_active {
+      max-height: 45px;
+      img,svg {
+        width: 45px;
+        height: 45px;
+        border: solid 1.5px #ffffff;
+      }
+    }
+    .merge_name {
+      float: left;
+      font-size: 15px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      max-width: 51%;
+    }
+    .merge_name_active {
+      font-size: 18px;
+    }
+    .merge_status {
+      float: right;
+      font-size: 12px;
+      .timeCounter {
+        position: relative;
+        top: 0;
+        right: 0;
+        font-weight: normal;
+        font-size: 12px;
+        color: #2f2f2f;
+        padding: 0;
+        margin: 0;
+      }
+    }
+    .merge_status_active {
+      font-size: 12px;
+    }
+  }
+  .merge_active {
+    height: 45px;
+    line-height: 45px;
+    color: #303030;
+    font-family: "PingFang SC";
+    min-height: 45px;
   }
 }
