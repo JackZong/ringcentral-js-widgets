@@ -30,7 +30,7 @@ import UserGuidePage from 'ringcentral-widgets/containers/UserGuidePage';
 import ConferenceCallDialerPage from 'ringcentral-widgets/containers/ConferenceCallDialerPage';
 import ConferenceCallMergeCtrlPage from 'ringcentral-widgets/containers/ConferenceCallMergeCtrlPage';
 import CallsOnholdPage from 'ringcentral-widgets/containers/CallsOnholdPage';
-import DialerNCallsPage from 'ringcentral-widgets/containers/DialerNCallsPage';
+import DialerAndCallsTabContainer from 'ringcentral-widgets/containers/DialerAndCallsTabContainer';
 
 import ContactSourceFilter from 'ringcentral-widgets/components/ContactSourceFilter';
 import MeetingScheduleButton from 'ringcentral-widgets/components/MeetingScheduleButton';
@@ -60,7 +60,7 @@ export default function App({
                 {routerProps.children}
                 <CallBadgeContainer
                   defaultOffsetX={0}
-                  defaultOffsetY={45}
+                  defaultOffsetY={73}
                   hidden={(
                     routerProps.location.pathname === '/calls/active' ||
                     routerProps.location.pathname === '/conferenceCall/mergeCtrl' ||
@@ -120,7 +120,9 @@ export default function App({
               <Route
                 path="/dialer"
                 component={() => (
-                  <DialerNCallsPage />
+                  <DialerAndCallsTabContainer>
+                    <DialerPage />
+                  </DialerAndCallsTabContainer>
                 )} />
               <Route
                 path="/settings"
@@ -145,15 +147,17 @@ export default function App({
               <Route
                 path="/calls"
                 component={() => (
-                  <DialerNCallsPage
-                    onLogCall={async () => { await sleep(1000); }}
-                    onCreateContact={() => { }}
-                    onCallsEmpty={() => { }}
-                    sourceIcons={sourceIcons}
-                  />
+                  <DialerAndCallsTabContainer>
+                    <ActiveCallsPage
+                      onLogCall={async () => { await sleep(1000); }}
+                      onCreateContact={() => { }}
+                      onCallsEmpty={() => { }}
+                      sourceIcons={sourceIcons}
+                    />
+                  </DialerAndCallsTabContainer>
                 )} />
               <Route
-                path="/calls/active"
+                path="/calls/active(/:sessionId)"
                 component={() => (
                   <CallCtrlPage
                     showContactDisplayPlaceholder={false}

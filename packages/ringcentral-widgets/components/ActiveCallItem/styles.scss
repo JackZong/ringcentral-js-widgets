@@ -19,6 +19,7 @@ $fixed-avatar-width:35px;
 // }
 
 .wrapper {
+  position: relative;
   padding: 13px 20px 18px;
   box-sizing: border-box;
   display: flex;
@@ -85,7 +86,7 @@ $fixed-avatar-width:35px;
 
 .conferenceContactDisplay{
   // margin: auto;
-  line-height: 50px;  
+  line-height: 50px;
 }
 
 .missed {

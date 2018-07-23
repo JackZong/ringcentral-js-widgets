@@ -19,7 +19,6 @@ import ConferenceCallIcon from '../../assets/images/ConferenceCallIcon.svg';
 import MergeIntoConferenceIcon from '../../assets/images/MergeIntoConferenceIcon.svg';
 
 import styles from './styles.scss';
-
 import i18n from './i18n';
 
 const callIconMap = {
@@ -35,7 +34,7 @@ function CallIcon({
   isOnConferenceCall,
   showAvatar,
   avatarUrl,
-  extraNum = 0
+  extraNum = 0,
 }) {
   const title = (direction === callDirections.inbound) ? inboundTitle : outboundTitle;
   let symbol;
@@ -88,16 +87,16 @@ CallIcon.defaultProps = {
 };
 
 function WebphoneButtons({
+  currentLocale,
   session,
   webphoneAnswer,
   webphoneReject,
   webphoneHangup,
   webphoneResume,
-  showMergeCall,
   showAnswer,
-  onMergeCall,
+  showMergeCall,
   disableMerge,
-  currentLocale,
+  onMergeCall,
 }) {
   if (!session || !webphoneAnswer || !webphoneHangup) {
     return null;
@@ -167,33 +166,33 @@ function WebphoneButtons({
             />
           </span>
           : null
-     }
+      }
     </div>
   );
 }
 
 WebphoneButtons.propTypes = {
+  currentLocale: PropTypes.string.isRequired,
   session: PropTypes.object,
   webphoneAnswer: PropTypes.func,
   webphoneReject: PropTypes.func,
   webphoneHangup: PropTypes.func,
   webphoneResume: PropTypes.func,
-  showMergeCall: PropTypes.bool,
   showAnswer: PropTypes.bool,
-  onMergeCall: PropTypes.func,
   disableMerge: PropTypes.bool,
-  currentLocale: PropTypes.string.isRequired,
+  showMergeCall: PropTypes.bool,
+  onMergeCall: PropTypes.func,
 };
 
 WebphoneButtons.defaultProps = {
-  disableMerge: false,
   session: undefined,
   webphoneAnswer: undefined,
   webphoneReject: undefined,
   webphoneHangup: undefined,
   webphoneResume: undefined,
-  showMergeCall: false,
   showAnswer: true,
+  disableMerge: false,
+  showMergeCall: false,
   onMergeCall: undefined,
 };
 
@@ -207,10 +206,9 @@ export default class ActiveCallItem extends Component {
       isCreating: false,
     };
     this._userSelection = false;
-    this.contactDisplay = null;// define shape of the instance
+    this.contactDisplay = null;
 
     this.toggleExtended = (e) => {
-      // TODO: add conference call control buttons
       if (this.props.isOnConferenceCall) {
         return;
       }
@@ -327,8 +325,8 @@ export default class ActiveCallItem extends Component {
           </span>
           {
             myPhoneNumber
-            ? formatPhone(myPhoneNumber)
-            : i18n.getString('anonymous', currentLocale)
+              ? formatPhone(myPhoneNumber)
+              : i18n.getString('anonymous', currentLocale)
           }
         </div>
       );
@@ -432,7 +430,6 @@ export default class ActiveCallItem extends Component {
         activityMatches,
         webphoneSession,
       },
-      isOnConferenceCall,
       disableLinks,
       currentLocale,
       areaCode,
@@ -456,6 +453,8 @@ export default class ActiveCallItem extends Component {
       contactDisplayStyle,
       externalViewEntity,
       externalHasEntity,
+      readTextPermission,
+      isOnConferenceCall,
       showMergeCall,
       onMergeCall,
       disableMerge,
@@ -463,7 +462,6 @@ export default class ActiveCallItem extends Component {
       showAnswer,
       avatarUrl,
       showAvatar,
-      readTextPermission,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
     const parsedInfo = parseNumber({
@@ -512,9 +510,9 @@ export default class ActiveCallItem extends Component {
               isOnConferenceCall={isOnConferenceCall}
               contactName={contactName}
               className={
-              isOnConferenceCall
-                ? classnames(styles.conferenceContactDisplay)
-                : classnames(styles.contactDisplay, contactDisplayStyle)
+                isOnConferenceCall
+                  ? classnames(styles.conferenceContactDisplay)
+                  : classnames(styles.contactDisplay, contactDisplayStyle)
               }
               contactMatches={contactMatches}
               selected={this.state.selected}
@@ -532,7 +530,7 @@ export default class ActiveCallItem extends Component {
               showType={false}
               sourceIcons={sourceIcons}
               stopPropagation
-          />
+            />
             {isOnConferenceCall ? null : callDetail}
           </div>
           <WebphoneButtons
@@ -605,7 +603,6 @@ ActiveCallItem.propTypes = {
     }),
     webphoneSession: PropTypes.object,
   }).isRequired,
-  isOnConferenceCall: PropTypes.bool,
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
@@ -622,26 +619,27 @@ ActiveCallItem.propTypes = {
   autoLog: PropTypes.bool,
   brand: PropTypes.string,
   showContactDisplayPlaceholder: PropTypes.bool,
-  showMergeCall: PropTypes.bool,
   formatPhone: PropTypes.func.isRequired,
   onClickToSms: PropTypes.func,
   onCreateContact: PropTypes.func,
   onLogCall: PropTypes.func,
   onViewContact: PropTypes.func,
-  onMergeCall: PropTypes.func,
   sourceIcons: PropTypes.object,
   renderContactName: PropTypes.func,
   renderExtraButton: PropTypes.func,
   contactDisplayStyle: PropTypes.string,
   externalViewEntity: PropTypes.func,
   externalHasEntity: PropTypes.func,
+  readTextPermission: PropTypes.bool,
+  isOnConferenceCall: PropTypes.bool,
   disableMerge: PropTypes.bool,
   hasActionMenu: PropTypes.bool,
   showAnswer: PropTypes.bool,
   avatarUrl: PropTypes.string,
   showAvatar: PropTypes.bool,
   showCallDetail: PropTypes.bool,
-  readTextPermission: PropTypes.bool,
+  showMergeCall: PropTypes.bool,
+  onMergeCall: PropTypes.func,
 };
 
 ActiveCallItem.defaultProps = {
@@ -649,7 +647,6 @@ ActiveCallItem.defaultProps = {
   onClickToSms: undefined,
   onViewContact: undefined,
   onCreateContact: undefined,
-  onMergeCall: undefined,
   isLogging: false,
   outboundSmsPermission: false,
   internalSmsPermission: false,
@@ -663,13 +660,13 @@ ActiveCallItem.defaultProps = {
   autoLog: false,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
-  showMergeCall: false,
   sourceIcons: undefined,
   renderContactName: undefined,
   renderExtraButton: undefined,
   contactDisplayStyle: undefined,
   externalViewEntity: undefined,
   externalHasEntity: undefined,
+  readTextPermission: true,
   isOnConferenceCall: false,
   disableMerge: false,
   hasActionMenu: true,
@@ -677,5 +674,6 @@ ActiveCallItem.defaultProps = {
   avatarUrl: null,
   showAvatar: false,
   showCallDetail: true,
-  readTextPermission: true,
+  showMergeCall: false,
+  onMergeCall: undefined,
 };

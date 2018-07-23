@@ -15,19 +15,20 @@ function mapToProps(_, {
     rolesAndPermissions,
     conferenceCall,
     callingSettings,
-    webphone
   },
   showContactDisplayPlaceholder = false,
 }) {
-  const conferenceList = Object.values(conferenceCall.conferences);
-  const conference = conferenceList.length ? conferenceList[0] : null;
-  let disableMerge;
   const isWebRTC = callingSettings.callingMode === callingModes.webphone;
-  const conferenceData = Object.values(conferenceCall.conferences)[0];
-  if (conference) {
-    disableMerge = conferenceCall.isOverload(conference.conference.id);
-  } else {
-    disableMerge = !isWebRTC;
+  const conferenceCallEquipped = !!conferenceCall;
+  let disableMerge = !isWebRTC;
+  let hasConferenceCall = false;
+  if (conferenceCallEquipped) {
+    const conferenceList = Object.values(conferenceCall.conferences);
+    const conference = conferenceList.length ? conferenceList[0] : null;
+    hasConferenceCall = !!conference;
+    if (conference) {
+      disableMerge = conferenceCall.isOverload(conference.conference.id);
+    }
   }
   return {
     currentLocale: locale.currentLocale,
@@ -45,17 +46,15 @@ function mapToProps(_, {
       rolesAndPermissions.permissions &&
       rolesAndPermissions.permissions.InternalSMS
     ),
-    showSpinner: conferenceCall.isMerging,
+    showSpinner: !!(conferenceCall && conferenceCall.isMerging),
     brand: brand.fullName,
     showContactDisplayPlaceholder,
     autoLog: !!(callLogger && callLogger.autoLog),
     isWebRTC,
-    hasConferenceCall: !!conference,
+    conferenceCallEquipped,
+    hasConferenceCall,
     disableMerge,
-    conferencePartiesAvatarUrls: (conferenceData
-      && conferenceCall
-        .getOnlinePartyProfiles(conferenceData.conference.id).map(profile => profile.avatarUrl))
-      || []
+    conferenceCallParties: conferenceCall ? conferenceCall.partyProfiles : null,
   };
 }
 
@@ -168,15 +167,22 @@ function mapToFunctions(_, {
         webphone.resume(conferenceData.session.id);
       }
     },
-    isSessionAConferenceCall: sessionId => conferenceCall.isConferenceSession(sessionId),
+    isSessionAConferenceCall(sessionId) {
+      return !!(
+        conferenceCall
+        && conferenceCall.isConferenceSession(sessionId)
+      );
+    },
   };
 }
 
-const ActiveCallsPage = withPhone(connect(mapToProps, mapToFunctions)(ActiveCallsPanel));
+const ActiveCallsPage = withPhone(connect(
+  mapToProps,
+  mapToFunctions,
+)(ActiveCallsPanel));
 
 export {
   mapToProps,
   mapToFunctions,
   ActiveCallsPage as default,
 };
-

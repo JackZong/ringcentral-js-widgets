@@ -15,7 +15,6 @@ export default {
   text: 'Text',
   call: 'Call',
   addContact: 'Add Contact',
-  mergeToConference: 'Merge',
   missedCall: 'Missed',
   inboundCall: 'Inbound',
   outboundCall: 'Outbound',
@@ -25,4 +24,5 @@ export default {
   accept: 'Accept',
   toVoicemail: 'Send to Voicemail',
   anonymous: 'Anonymous',
+  mergeToConference: 'Merge',
 };

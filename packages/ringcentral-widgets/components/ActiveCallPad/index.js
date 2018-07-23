@@ -24,9 +24,11 @@ import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import styles from './styles.scss';
 import i18n from './i18n';
 
+const DisplayButtonNumber = 6;
+
 function MoreActionItem({
-  name,
-  icon,
+  title,
+  icon: Icon,
   disabled,
   onClick,
 }) {
@@ -39,18 +41,18 @@ function MoreActionItem({
       className={styles.buttonItem}
       onClick={disabled ? null : onClick}>
       <div className={iconClassName}>
-        {icon}
+        {<Icon />}
       </div>
       <div className={styles.buttonName}>
-        {name}
+        {title}
       </div>
     </div>
   );
 }
 
 MoreActionItem.propTypes = {
-  name: PropTypes.string.isRequired,
-  icon: PropTypes.object.isRequired,
+  title: PropTypes.string.isRequired,
+  icon: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
 };
@@ -108,141 +110,172 @@ class ActiveCallPad extends Component {
   }
 
   render() {
-    const onHoldClicked = this.props.isOnHold ?
-      this.props.onUnhold :
-      this.props.onHold;
-    const onRecordClicked = this.props.recordStatus === recordStatus.recording ?
-      this.props.onStopRecord :
-      this.props.onRecord;
-    const disabledFlip = this.props.flipNumbers.length === 0
-      || this.props.isOnHold
-      || this.props.layout === callCtrlLayouts.mergeCtrl;
-    const disabledTransfer = this.props.layout === callCtrlLayouts.mergeCtrl;
-    const recordTitle = this.props.recordStatus === recordStatus.recording ?
-      i18n.getString('stopRecord', this.props.currentLocale) :
-      i18n.getString('record', this.props.currentLocale);
-    const isRecordButtonActive = this.props.recordStatus === recordStatus.recording;
-    const isRecordDisabled = this.props.recordStatus === recordStatus.pending
-      || this.props.layout === callCtrlLayouts.mergeCtrl;
-    const btnClassName = styles.callButton;
-    const muteButton = this.props.isOnMute ?
-      (
-        <ActiveCallButton
-          onClick={this.props.onUnmute}
-          className={btnClassName}
-          icon={MuteIcon}
-          title={i18n.getString('unmute', this.props.currentLocale)}
-          disabled={this.props.isOnHold}
-        />
-      ) :
-      (
-        <ActiveCallButton
-          onClick={this.props.onMute}
-          className={btnClassName}
-          title={i18n.getString('mute', this.props.currentLocale)}
-          icon={UnmuteIcon}
-          disabled={this.props.isOnHold}
-        />
-      );
+    const buttons = [];
 
-    const buttons = [
-      muteButton,
-      <ActiveCallButton
-        onClick={this.props.onShowKeyPad}
-        className={btnClassName}
-        icon={KeypadIcon}
-        title={i18n.getString('keypad', this.props.currentLocale)}
-      />,
-      <ActiveCallButton
-        onClick={onHoldClicked}
-        className={btnClassName}
-        title={
-          this.props.isOnHold ?
-            i18n.getString('onHold', this.props.currentLocale) :
-            i18n.getString('hold', this.props.currentLocale)
-        }
-        active={this.props.isOnHold}
-        icon={HoldIcon}
-        iconWidth={120}
-        iconHeight={160}
-        iconX={190}
-        iconY={165}
-      />,
-      (
+    /* --------------------- Mute/Unmute --------------------------- */
+    buttons.push(this.props.isOnMute
+      ? {
+        icon: MuteIcon,
+        title: i18n.getString('unmute', this.props.currentLocale),
+        disabled: this.props.isOnHold,
+        onClick: this.props.onUnmute,
+      }
+      : {
+        icon: UnmuteIcon,
+        title: i18n.getString('mute', this.props.currentLocale),
+        disabled: this.props.isOnHold,
+        onClick: this.props.onMute,
+      }
+    );
+
+    /* --------------------- keyPad --------------------------- */
+    buttons.push(
+      {
+        icon: KeypadIcon,
+        title: i18n.getString('keypad', this.props.currentLocale),
+        onClick: this.props.onShowKeyPad,
+      }
+    );
+
+    /* --------------------- Hold/Unhold --------------------------- */
+    buttons.push(
+      {
+        icon: HoldIcon,
+        iconWidth: 120,
+        iconHeight: 160,
+        iconX: 190,
+        iconY: 165,
+        title: this.props.isOnHold
+          ? i18n.getString('onHold', this.props.currentLocale)
+          : i18n.getString('hold', this.props.currentLocale),
+        active: this.props.isOnHold,
+        onClick: this.props.isOnHold
+          ? this.props.onUnhold
+          : this.props.onHold,
+      }
+    );
+
+    /* --------------------- Add/Merge --------------------------- */
+    if (this.props.conferenceCallEquipped) {
+      const showMerge = (
         this.props.layout === callCtrlLayouts.mergeCtrl ||
-        (this.props.layout === callCtrlLayouts.normalCtrl && this.props.hasConference)
-      )
-        ? <ActiveCallButton
-          onClick={this.props.onMerge}
-          title={i18n.getString('mergeToConference', this.props.currentLocale)}
-          className={btnClassName}
-          icon={MergeIcon}
-          disabled={this.props.mergeDisabled}
-        />
-        : <ActiveCallButton
-          onClick={this.props.onAdd}
-          title={i18n.getString('add', this.props.currentLocale)}
-          className={btnClassName}
-          icon={CombineIcon}
-          disabled={this.props.addDisabled}
-        />,
-      <ActiveCallButton
-        onClick={onRecordClicked}
-        title={recordTitle}
-        active={isRecordButtonActive}
-        className={btnClassName}
-        icon={RecordIcon}
-        disabled={this.props.isOnHold || isRecordDisabled}
-      />,
-      <span
-        className={styles.moreButtonContainer}
-        ref={this.moreButton}
-      >
-        <ActiveCallButton
-          onClick={this.toggleMore}
-          title={i18n.getString('more', this.props.currentLocale)}
-          active={this.state.expandMore}
-          className={classnames(styles.moreButton, btnClassName)}
-          disabled={disabledFlip && disabledTransfer}
-          icon={MoreIcon} />
-        <Tooltip
-          fixed={false}
-          open={this.state.expandMore}
-          direction="top"
-          ref={this.dropdown}
-          triggerElm={this.state.moreButton}>
-          <div className={styles.buttonPopup}>
-            {
-              [{
-                icon: <TransferIcon />,
-                name: i18n.getString('transfer', this.props.currentLocale),
-                onClick: this.props.onToggleTransferPanel,
-                disabled: disabledTransfer,
-              },
+        (this.props.layout === callCtrlLayouts.normalCtrl && this.props.hasConferenceCall)
+      );
+      buttons.push(showMerge
+        ? {
+          icon: MergeIcon,
+          title: i18n.getString('mergeToConference', this.props.currentLocale),
+          disabled: this.props.mergeDisabled,
+          onClick: this.props.onMerge,
+        }
+        : {
+          icon: CombineIcon,
+          title: i18n.getString('add', this.props.currentLocale),
+          disabled: this.props.addDisabled,
+          onClick: this.props.onAdd,
+        }
+      );
+    }
+
+    /* --------------------- Record/Stop --------------------------- */
+    buttons.push(
+      {
+        icon: RecordIcon,
+        title: this.props.recordStatus === recordStatus.recording
+          ? i18n.getString('stopRecord', this.props.currentLocale)
+          : i18n.getString('record', this.props.currentLocale),
+        active: this.props.recordStatus === recordStatus.recording,
+        disabled: (
+          this.props.isOnHold
+          || this.props.recordStatus === recordStatus.pending
+          || this.props.layout === callCtrlLayouts.mergeCtrl
+        ),
+        onClick: this.props.recordStatus === recordStatus.recording
+          ? this.props.onStopRecord
+          : this.props.onRecord,
+      }
+    );
+
+    /* --------------------- Transfer --------------------------- */
+    const disabledTransfer = (
+      this.props.layout === callCtrlLayouts.mergeCtrl
+    );
+    buttons.push(
+      {
+        icon: TransferIcon,
+        title: i18n.getString('transfer', this.props.currentLocale),
+        disabled: disabledTransfer,
+        onClick: this.props.onToggleTransferPanel,
+      }
+    );
+
+    /* --------------------- Flip --------------------------- */
+    const disabledFlip = (
+      this.props.flipNumbers.length === 0
+      || this.props.isOnHold
+      || this.props.layout === callCtrlLayouts.mergeCtrl
+    );
+    buttons.push(
+      {
+        icon: FlipIcon,
+        title: i18n.getString('flip', this.props.currentLocale),
+        disabled: disabledFlip,
+        onClick: this.props.onShowFlipPanel,
+      }
+    );
+
+    /* --------------------- More Actions --------------------------- */
+    let moreActions = null;
+    if (buttons.length > DisplayButtonNumber) {
+      moreActions = (
+        <span
+          className={styles.moreButtonContainer}
+          ref={this.moreButton}
+        >
+          <ActiveCallButton
+            onClick={this.toggleMore}
+            title={i18n.getString('more', this.props.currentLocale)}
+            active={this.state.expandMore}
+            className={classnames(styles.moreButton, styles.callButton)}
+            disabled={disabledFlip && disabledTransfer}
+            icon={MoreIcon} />
+          <Tooltip
+            fixed={false}
+            open={this.state.expandMore}
+            direction="top"
+            ref={this.dropdown}
+            triggerElm={this.state.moreButton}>
+            <div className={styles.buttonPopup}>
               {
-                icon: <FlipIcon />,
-                name: i18n.getString('flip', this.props.currentLocale),
-                onClick: this.props.onShowFlipPanel,
-                disabled: disabledFlip,
-              }].map(({
-                name,
-                ...opts
-              }) => (<MoreActionItem
-                key={name}
-                name={name}
-                {...opts}
-              />))
-            }
-          </div>
-        </Tooltip>
-      </span>
-    ];
+                buttons.slice(DisplayButtonNumber - 1).map(({
+                  title,
+                  ...opts
+                }) => (<MoreActionItem
+                  key={title}
+                  title={title}
+                  {...opts}
+                />))
+              }
+            </div>
+          </Tooltip>
+        </span>
+      );
+    }
 
     return (
       <div className={classnames(styles.root, this.props.className)}>
         <div className={styles.callCtrlButtonGroup}>
           <div className={styles.buttonRow}>
-            {buttons.map((c, idx) => React.cloneElement(c, { key: `${idx}_${c.props.title}` }))}
+            {
+              buttons.slice(0, DisplayButtonNumber - (moreActions ? 1 : 0)).map(opts => (
+                <ActiveCallButton
+                  key={opts.title}
+                  className={styles.callButton}
+                  {...opts}
+                />
+              ))
+            }
+            {moreActions}
           </div>
         </div>
         <div className={classnames(styles.buttonRow, styles.stopButtonGroup)}>
@@ -263,7 +296,6 @@ class ActiveCallPad extends Component {
 }
 
 ActiveCallPad.propTypes = {
-  expandMore: PropTypes.bool,
   currentLocale: PropTypes.string.isRequired,
   className: PropTypes.string,
   isOnMute: PropTypes.bool,
@@ -283,22 +315,26 @@ ActiveCallPad.propTypes = {
   onShowFlipPanel: PropTypes.func.isRequired,
   onToggleTransferPanel: PropTypes.func.isRequired,
   flipNumbers: PropTypes.array.isRequired,
-  layout: PropTypes.string.isRequired,
+  layout: PropTypes.string,
   addDisabled: PropTypes.bool,
   mergeDisabled: PropTypes.bool,
-  hasConference: PropTypes.bool,
+  conferenceCallEquipped: PropTypes.bool,
+  hasConferenceCall: PropTypes.bool,
+  expandMore: PropTypes.bool,
 };
 
 ActiveCallPad.defaultProps = {
-  expandMore: false,
   className: null,
   isOnMute: false,
   isOnHold: false,
+  layout: callCtrlLayouts.normalCtrl,
   addDisabled: false,
   mergeDisabled: false,
-  hasConference: false,
+  conferenceCallEquipped: false,
+  hasConferenceCall: false,
   onAdd: undefined,
   onMerge: undefined,
+  expandMore: false,
 };
 
 export default ActiveCallPad;

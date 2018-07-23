@@ -1,22 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import styles from './styles.scss';
+
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
+import styles from './styles.scss';
 import i18n from './i18n';
 
-export default function ConferenceInfo({
-  displayedProfiles,
-  remains,
+function ConferenceInfo({
+  currentLocale,
+  partyProfiles,
   onClick,
 }) {
+  const MAXIMUM_AVATARS = 4;
+  const profiles = partyProfiles || [];
+
+  const displayedProfiles =
+    profiles.length >= MAXIMUM_AVATARS
+      ? profiles.slice(0, MAXIMUM_AVATARS)
+      : profiles;
+
+  const remains = profiles.length > MAXIMUM_AVATARS
+    ? profiles.length - MAXIMUM_AVATARS
+    : 0;
+
   return (
     <a
       className={styles.conferenceCallInfoContainer}
       onClick={(e) => { e.preventDefault(); onClick(); }}
     >
       {
-        Array.isArray(displayedProfiles) && displayedProfiles.length
+        displayedProfiles.length
           ? (
             <div className={styles.avatarContainer}>
               {
@@ -35,7 +48,7 @@ export default function ConferenceInfo({
                 )
                 )
               }{
-                remains
+                remains > 0
                   ? (<div className={classnames(styles.avatar, styles.remains)}>{`+${remains}`}</div>)
                   : null
               }
@@ -50,22 +63,24 @@ export default function ConferenceInfo({
           )
       }
       <p className={styles.info}>
-        {i18n.getString('conferenceCall')}
+        {i18n.getString('conferenceCall', currentLocale)}
       </p>
     </a>
   );
 }
 
 ConferenceInfo.propTypes = {
-  displayedProfiles: PropTypes.arrayOf(PropTypes.shape({
+  currentLocale: PropTypes.string.isRequired,
+  partyProfiles: PropTypes.arrayOf(PropTypes.shape({
     avatarUrl: PropTypes.string,
     toUserName: PropTypes.string,
-  })).isRequired,
-  remains: PropTypes.number,
-  onClick: PropTypes.func
+  })),
+  onClick: PropTypes.func,
 };
 
 ConferenceInfo.defaultProps = {
-  remains: 0,
+  partyProfiles: null,
   onClick: i => i,
 };
+
+export default ConferenceInfo;

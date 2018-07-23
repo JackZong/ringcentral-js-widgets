@@ -43,7 +43,6 @@ import ContactSearch from 'ringcentral-integration/modules/ContactSearch';
 import DateTimeFormat from 'ringcentral-integration/modules/DateTimeFormat';
 import Conference from 'ringcentral-integration/modules/Conference';
 import ConferenceCall from 'ringcentral-integration/modules/ConferenceCall';
-import conferenceCallStatus from 'ringcentral-integration/modules/ConferenceCall/conferenceCallStatus';
 
 import ActiveCalls from 'ringcentral-integration/modules/ActiveCalls';
 import DetailedPresence from 'ringcentral-integration/modules/DetailedPresence';
@@ -239,8 +238,11 @@ export default class BasePhone extends RcModule {
 
       if (currentSession
         && routerInteraction.currentPath.indexOf('/conferenceCall/mergeCtrl') === 0) {
-        // routerInteraction.push('/calls/active');
-        // return;
+        const mergingPairFromId = conferenceCall.mergingPair.fromSessionId;
+        if (session.id !== mergingPairFromId) {
+          routerInteraction.push('/calls/active');
+          return;
+        }
       }
 
       if (
@@ -259,7 +261,7 @@ export default class BasePhone extends RcModule {
           routerInteraction.push('/dialer');
           return;
         }
-        if (routerInteraction.currentPath !== '/calls/active') { // mean have params
+        if (routerInteraction.currentPath.indexOf('/calls/active') !== 0) { // mean have params
           routerInteraction.push('/calls/active');
         }
         routerInteraction.goBack();
@@ -272,10 +274,13 @@ export default class BasePhone extends RcModule {
         return;
       }
 
-      const isConferenceCallSession = conferenceCall.isConferenceSession(session.id);
+      const isConferenceCallSession = (
+        conferenceCall
+        && conferenceCall.isConferenceSession(session.id)
+      );
 
       if (
-        routerInteraction.currentPath !== '/calls/active' &&
+        routerInteraction.currentPath.indexOf('/calls/active') !== 0 &&
         routerInteraction.currentPath.indexOf('/conferenceCall/mergeCtrl') !== 0 &&
         !(isConferenceCallSession && routerInteraction.currentPath === '/calls')
       ) {

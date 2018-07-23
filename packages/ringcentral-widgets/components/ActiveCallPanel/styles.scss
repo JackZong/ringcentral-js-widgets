@@ -9,6 +9,7 @@ $timeCounterMarginTop:10px;
 $timeCounterHeight: 14px;
 $calleeAvatarSize: 30px;
 $calleeAvatarActiveSize: 45px;
+$calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
 .root {
   @include full-size;
   box-sizing: border-box;
@@ -133,7 +134,6 @@ $calleeAvatarActiveSize: 45px;
       margin: 0;
       border: 2px solid #fff;
       font-size: 20px;
-      letter-spacing: 5px;
       text-align: center;
       // fall back
       background-size: 100%;
@@ -171,8 +171,8 @@ $calleeAvatarActiveSize: 45px;
       width: $calleeAvatarSize;
       height: $calleeAvatarSize;
       float: left;
-      margin-right: 27.5px;
-      margin-left: 7.5px;
+      margin-right: 35px - $calleeAvatarMarginL;
+      margin-left: $calleeAvatarMarginL;
       border-radius: 100%;
       @media only screen and (min-width: 150px) and (max-width: 265px) {
         margin-right: 11%;
@@ -268,7 +268,6 @@ $calleeAvatarActiveSize: 45px;
   }
   .merge_item,.merge_item_active {
     padding: 0 17px 0 20px;
-    font-family: HelveticaNeue;
     &:after {
       content: " ";
       display: block;

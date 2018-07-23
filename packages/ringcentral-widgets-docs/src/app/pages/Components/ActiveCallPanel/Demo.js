@@ -15,6 +15,7 @@ props.onAdd = () => null;
 props.onMerge = () => null;
 props.onHangup = () => null;
 props.onPark = () => null;
+props.showBackButton = true;
 props.onBackButtonClick = () => null;
 props.onKeyPadChange = () => null;
 props.formatPhone = phone => phone;
@@ -29,7 +30,6 @@ props.fallBackName = 'Unknown';
 props.flipNumbers = [];
 props.recordStatus = 'recordStatus-idle';
 props.onShowKeyPad = () => null;
-props.calls = [{}, {}];
 props.layout = callCtrlLayouts.normalCtrl;
 
 /**

@@ -258,7 +258,7 @@ ContactDisplay.propTypes = {
   contactName: PropTypes.any,
 };
 ContactDisplay.defaultProps = {
-  isOnConferenceCall: null,
+  isOnConferenceCall: false,
   reference: undefined,
   className: undefined,
   onSelectContact: undefined,

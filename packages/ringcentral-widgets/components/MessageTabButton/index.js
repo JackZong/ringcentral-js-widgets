@@ -10,7 +10,7 @@ function NavigationButton({
   noticeCounts,
   onClick,
   width,
-  fullSizeInk
+  fullSizeInk,
 }) {
   let notice = null;
   if (noticeCounts && noticeCounts > 0) {
