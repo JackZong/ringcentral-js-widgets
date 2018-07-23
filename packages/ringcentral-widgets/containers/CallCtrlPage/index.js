@@ -290,6 +290,7 @@ function mapToProps(_, {
     conferenceCall,
     callingSettings,
     routerInteraction
+    callMonitor,
   },
   layout = callCtrlLayouts.normalCtrl,
 }) {
@@ -333,7 +334,14 @@ function mapToProps(_, {
 
     hasConferenceCall = !!conferenceData;
     conferenceCallParties = conferenceCall.partyProfiles;
-    lastCallInfo = conferenceCall.lastCallInfo;
+    lastCallInfo = callMonitor.lastCallInfo;
+
+    if (
+      layout === callCtrlLayouts.mergeCtrl
+      && (!lastCallInfo || lastCallInfo.status === sessionStatus.finished)
+    ) {
+      mergeDisabled = true;
+    }
   }
 
   layout = isOnConference ? callCtrlLayouts.conferenceCtrl : layout;
