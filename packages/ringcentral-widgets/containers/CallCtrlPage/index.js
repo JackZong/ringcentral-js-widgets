@@ -12,7 +12,6 @@ import withPhone from '../../lib/withPhone';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import CallCtrlPanel from '../../components/CallCtrlPanel';
 import i18n from './i18n';
-import calleeTypes from '../../enums/calleeTypes';
 
 class CallCtrlPage extends Component {
   constructor(props) {
@@ -68,8 +67,6 @@ class CallCtrlPage extends Component {
       this.props.onAdd(this.props.session.id);
     this.onMerge = () =>
       this.props.onMerge(this.props.session.id);
-    this.terminatedCallback = this::this.terminatedCallback;
-    this.terminatedSuccessHander = this::this.terminatedSuccessHander;
   }
 
   componentDidMount() {
@@ -87,17 +84,10 @@ class CallCtrlPage extends Component {
     if (this.props.session.id !== nextProps.session.id) {
       this._updateAvatarAndMatchIndex(nextProps);
     }
-    this.updateLastToState(nextProps);
   }
 
   componentWillUnmount() {
     this._mounted = false;
-    if (this.state.lastToSession) {
-      this.terminatedCallback(this.state.lastToSession, true);
-    }
-    if (this.state.currentCallSession) {
-      this.terminatedCallback(this.state.currentCallSession);
-    }
   }
 
   _updateAvatarAndMatchIndex(props) {
@@ -344,13 +334,6 @@ function mapToProps(_, {
     hasConferenceCall = !!conferenceData;
     conferenceCallParties = conferenceCall.partyProfiles;
     lastCallInfo = conferenceCall.lastCallInfo;
-
-    if (
-      layout === callCtrlLayouts.mergeCtrl
-      && (!lastCallInfo || lastCallInfo.status === sessionStatus.finished)
-    ) {
-      mergeDisabled = true;
-    }
   }
 
   layout = isOnConference ? callCtrlLayouts.conferenceCtrl : layout;

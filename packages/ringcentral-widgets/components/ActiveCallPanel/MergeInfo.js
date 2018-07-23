@@ -6,7 +6,6 @@ import calleeTypes from 'ringcentral-integration/enums/calleeTypes';
 import styles from './styles.scss';
 import i18n from './i18n';
 import CallAvatar from '../CallAvatar';
-import calleeTypes from '../../enums/calleeTypes';
 
 class MergeInfo extends Component {
   static isLastCallEnded({ lastCallInfo }) {

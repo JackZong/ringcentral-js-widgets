@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-
+import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 import withPhone from '../../lib/withPhone';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 
@@ -25,10 +25,18 @@ function mapToProps(_, {
   const currentSession = webphone.activeSession || {};
   const isOnConference = conferenceCall.isConferenceSession(currentSession.id);
   const layout = isOnConference ? callCtrlLayouts.conferenceCtrl : callCtrlLayouts.mergeCtrl;
-
+  let mergeDisabled = !!baseProps.mergeDisabled;
+  const lastCallInfo = conferenceCall.lastCallInfo;
+  if (
+    layout === callCtrlLayouts.mergeCtrl
+    && (!lastCallInfo || lastCallInfo.status === sessionStatus.finished)
+  ) {
+    mergeDisabled = true;
+  }
   return {
     ...baseProps,
     layout,
+    mergeDisabled
   };
 }
 
@@ -49,7 +57,6 @@ const ConferenceCallMergeCtrlPage = withPhone(connect(
   mapToProps,
   mapToFunctions,
 )(CallCtrlPage));
-
 export {
   mapToProps,
   mapToFunctions,
