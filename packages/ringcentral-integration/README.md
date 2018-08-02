@@ -229,10 +229,10 @@ Get what you want from state.
   }
 ```
 
-`setStore` methods also triggers module initialization. 
+`setStore` methods also triggers module initialization.
 
 1. All sub modules' `_setStore` methods are called too.
-2. All sub modules. And in every module, the `initizlize` methods is called. 
+2. All sub modules. And in every module, the `initizlize` methods is called.
 
 ```javascript
   setStore(store) {
@@ -483,3 +483,6 @@ Please fork the project and read the following:
 
 - [Contribution Guide](docs/contribute.md)
 
+
+
+//aha
