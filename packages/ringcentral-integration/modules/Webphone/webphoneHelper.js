@@ -121,4 +121,3 @@ export function isRecording(session) {
     session && session.recordStatus && session.recordStatus !== recordStatus.idle
   );
 }
-
