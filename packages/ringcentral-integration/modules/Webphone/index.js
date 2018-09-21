@@ -1205,6 +1205,7 @@ export default class Webphone extends RcModule {
   }
 
   _onCallStart(session) {
+    console.warn('start');
     this._addSession(session);
     const normalizedSession = normalizeSession(session);
     this.store.dispatch({

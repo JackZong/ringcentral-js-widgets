@@ -9,7 +9,7 @@ module.exports = {
     drivers: ['puppeteer', 'seleniumWebdriverFirefox', 'seleniumWebdriverChrome'],
     levels: [
       'p0',
-      'p1'
+      'p1',
     ],
     brands: [
       'rc'
@@ -68,7 +68,7 @@ module.exports = {
           ],
           brands: {
             rc: {
-              
+
               location: 'https://login.salesforce.com/',
             },
             att: {
