@@ -5,7 +5,6 @@ import { createProcess } from 'marten';
 import Login from '../../../steps/commons/login';
 import Entry from '../../../steps/entry';
 import NavigateTo from '../../../steps/commons/navigateTo';
-import { TIMEOUT } from 'dns';
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
 describe('Contact list automated test', () => {
   test({
