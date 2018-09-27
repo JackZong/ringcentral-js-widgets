@@ -53,8 +53,8 @@ describe('Contact list automated test', () => {
     const contactNav = await page.$("div[title='Contacts']");
     await contactNav.click();
     await $(app).screenshot({ path: 'c.png' });
-    const filterBtn = page.$('._-ringcentral-widgets-components-ContactSourceFilter-_styles_contactSourceFilter_1YaIl _-ringcentral-widgets-components-ContactsView-_styles_actionButton_3aSnr');
+    const filterBtn = await app.$('._-ringcentral-widgets-components-ContactSourceFilter-_styles_contactSourceFilter_1YaIl_-ringcentral-widgets-components-ContactsView-_styles_actionButton_3aSnr');
     await filterBtn.click();
-    $(app).screenshot({ path: 'f.png' });
+    await $(app).screenshot({ path: 'd.png' });
   });
 })
