@@ -16,6 +16,12 @@ describe('Test Demo: =====>', () => {
   }, async ({ option }) => {
     const text = await $(page).getText(option.selector, { selector: 'css' });
     expect(text).toBe(option.expected);
+    const loginBtn = await page.$(option.selector);
+    await loginBtn.click();
+    const pages = await browser.pages();
+    const loginPop = pages[1];
+    loginPop.click('[]')
+    debugger;
   });
 
 });
