@@ -22,13 +22,16 @@ describe('Test Demo: =====>', () => {
         pwd: 'Test!123',
         loginTitle: 'Sign in - RingCentral',
         appTitle: '',
+        authSuccess: 'Authorized Account',
+        officeAccout: 'demo2@RingCentral639.onmicrosoft.com',
+        officePwd: 'Rcisfun27',
       },
     ],
   }, async ({ option }) => {
     const text = await $(page).getText(option.selector, { selector: 'css' });
     expect(text).toBe(option.expected);
     await $(page).click(option.selector, {selector: 'css' });
-    await page.waitFor(5300);
+    await page.waitFor(5000);
     let targets = await browser.targets();
     let loginPop = targets.find(t => t._targetInfo.title === option.loginTitle);
     let loginPage = await loginPop.page();
@@ -40,15 +43,16 @@ describe('Test Demo: =====>', () => {
     loginPage = await loginPop.page();
     await $(loginPage).type("#password", option.pwd, { selector: 'css' });
     await $(loginPage).click('signInBtn');
-    await page.waitFor(2000);
+    await page.waitFor(3000);
     let pages = await browser.pages();
     let app = pages[1];
     await $(app).click("[class*='styles_secondaryButton']", { selector: 'css' });
-    await page.waitFor(3000);
+    await page.waitFor(1000);
     pages = await browser.pages();
     app = pages[1];
-    await $(app).click("[class*='styles_cancelBtn']", { selector: 'css' });
-    await page.waitFor(2000);
+    // only has the quick access setup page
+    // await $(app).click("[class*='styles_cancelBtn']", { selector: 'css' });
+    // await page.waitFor(2000);
     await $(app).click("[class*='styles_dismiss']", { selector: 'css' });
     await $(app).click("div[title='More Menu']", { selector: 'css' });
     await page.waitFor(1000);
@@ -58,7 +62,23 @@ describe('Test Demo: =====>', () => {
     pages = await browser.pages();
     app = pages[1];
     await $(app).click("button[class*='AuthorizeSettingsPanel']", { selector: 'css' });
-    debugger;
+    await page.waitFor(6000);
+    targets = await browser.targets();
+    let officeAuthPop = targets[targets.length - 1];
+    let officeAuthPage = await officeAuthPop.page();
+    await officeAuthPage.type("input[type='email']", option.officeAccout);
+    await officeAuthPage.click("input[type='submit']");
+    officeAuthPop = targets[targets.length - 1];
+    officeAuthPage = await officeAuthPop.page();
+    await officeAuthPage.type("input[name='passwd']", option.officePwd);
+    // need a timeout
+    await page.waitFor(2000);
+    await officeAuthPage.click("input[type='submit']");
+    await $(officeAuthPage).waitFor(3000);
+    pages = await browser.pages();
+    app = pages[1];
+    expect(await $(page).getText("[class*='AuthorizeSettingsPanel-_styles_title']",
+      { selector: 'css' }
+    )).toEqual(option.authSuccess);
   });
-
 });
