@@ -1,5 +1,5 @@
 module.exports = {
-  selectorLabel: 'data-sign',
+  selectorLabel: 'data-test-automation-id',
   caseServices: [{
     name: 'einstein',
     url: 'http://einstein.int.ringcentral.com/',
