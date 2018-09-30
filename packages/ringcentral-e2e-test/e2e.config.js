@@ -53,6 +53,22 @@ module.exports = {
         params: {
           brands: {
             rc: {
+              extension: '/Users/jackson.lin/workspace/jackzong/googlechrome/build/extension/office/rc',
+              location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/background.html',
+            },
+            att: {
+              extension: '../../../googlechrome-rc/build/extension/office/rc',
+              location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/background.html',
+            }
+          }
+        }
+      },
+      office: {
+        type: 'extension',
+        source: './src/targets/google',
+        params: {
+          brands: {
+            rc: {
               extension: '../../../googlechrome-rc/build/extension/office/rc',
               location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/background.html',
             },
