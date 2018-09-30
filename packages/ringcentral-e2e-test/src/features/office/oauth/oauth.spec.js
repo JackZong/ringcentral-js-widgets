@@ -8,7 +8,7 @@ afterEach(async() => {
 })
 describe('Test Demo: =====>', () => {
   test({
-    title: 'button text with select ${selector} expected ${expected} and google oauth ',
+    title: 'button text with select ${selector} expected ${expected} ',
     tags: [
       ['google', { brands: ['rc'] }],
     ],
@@ -23,8 +23,8 @@ describe('Test Demo: =====>', () => {
         loginTitle: 'Sign in - RingCentral',
         appTitle: '',
         authSuccess: 'Authorized Account',
-        googleAccout: '',
-        googlePwd: '',
+        officeAccout: '',
+        officePwd: '',
       },
     ],
   }, async ({ option }) => {
@@ -50,9 +50,9 @@ describe('Test Demo: =====>', () => {
     await page.waitFor(1000);
     pages = await browser.pages();
     app = pages[1];
-    // only google has the quick access setup page
-    await $(app).click("[class*='styles_cancelBtn']", { selector: 'css' });
-    await page.waitFor(2000);
+    // only has the quick access setup page
+    // await $(app).click("[class*='styles_cancelBtn']", { selector: 'css' });
+    // await page.waitFor(2000);
     await $(app).click("[class*='styles_dismiss']", { selector: 'css' });
     await $(app).click("div[title='More Menu']", { selector: 'css' });
     await page.waitFor(1000);
@@ -66,11 +66,11 @@ describe('Test Demo: =====>', () => {
     targets = await browser.targets();
     let officeAuthPop = targets[targets.length - 1];
     let officeAuthPage = await officeAuthPop.page();
-    await officeAuthPage.type("input[type='email']", option.googleAccout);
+    await officeAuthPage.type("input[type='email']", option.officeAccout);
     await officeAuthPage.click("input[type='submit']");
     officeAuthPop = targets[targets.length - 1];
     officeAuthPage = await officeAuthPop.page();
-    await officeAuthPage.type("input[name='passwd']", option.googlePwd);
+    await officeAuthPage.type("input[name='passwd']", option.officePwd);
     // need a timeout
     await page.waitFor(2000);
     await officeAuthPage.click("input[type='submit']");
