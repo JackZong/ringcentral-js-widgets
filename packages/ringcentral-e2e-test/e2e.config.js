@@ -18,6 +18,7 @@ module.exports = {
       ['widgets'],
       ['salesforce'],
       ['google'],
+      ['office'],
     ],
   },
   defaults: {
@@ -52,12 +53,12 @@ module.exports = {
         params: {
           brands: {
             rc: {
-              extension: '/Users/jackson.lin/workspace/jackzong/googlechrome/build/extension/office/rc',
-              location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
+              extension: '../../../googlechrome-rc/build/extension/office/rc',
+              location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/background.html',
             },
             att: {
-              extension: './resources/extension/google/att',
-              location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
+              extension: '../../../googlechrome-rc/build/extension/office/rc',
+              location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/background.html',
             }
           }
         }

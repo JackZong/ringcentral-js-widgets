@@ -77,6 +77,17 @@ cd <repo>/packages/ringcentral-e2e-test
 npx e2e-test run ./src/features/google/call/Dialer.spec.js --drivers puppeteer -S
 ```
 
+#### Run RC for Office365 Test Case
+
+1. Generate RC for Office365 with brand rc, copy files to `<repo>/packages/ringcentral-e2e-test/resources/extension/office/rc`.
+
+2. Run example test case.
+
+```shell
+cd <repo>/packages/ringcentral-e2e-test
+npx e2e-test run ./src/features/office/**/*.js --drivers puppeteer -S
+```
+
 > NOTE: Chrome Extension for puppeteer must be `sandbox` mode.
 
 ### APIs Reference
