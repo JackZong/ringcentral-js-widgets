@@ -9,7 +9,7 @@ storiesOf('List', module)
   .addDecorator(withBackgrounds([
     { name: 'listBackground', value: '#f9f9f9', default: true }
   ]))
-  .add('basic', () => {
+  .add('L101', () => {
     const onChange = action('onChange');
     const switchProps = {
       title: text('Title', 'Switch Title'),
@@ -18,8 +18,8 @@ storiesOf('List', module)
       disable: boolean('Disabled', false),
     };
     return (<div style={{ width: '300px' }}>
-      <List type="L01" />
-      <List type="L02" switchProps={switchProps} />
+      <List type="L101" switchProps={null} />
+      <List type="L101" switchProps={switchProps} />
     </div>);
   }
   );

@@ -7,15 +7,15 @@ import IconLine from '../IconLine';
 
 function List({ type, switchProps }) {
   console.log(type);
-  if (type === 'L01') {
+  if (type === 'L101' && !switchProps) {
     return (<LinkLine>Label</LinkLine>);
-  } else if (type === 'L02') {
+  } else if (type === 'L101' && switchProps) {
     return (<IconLine icon={<Switch {...switchProps} />}>Label</IconLine>);
   }
 }
 
 List.defaultProps = {
-  type: 'L01'
+  type: 'L101'
 };
 List.PropsTypes = {
   type: PropsTypes.string
