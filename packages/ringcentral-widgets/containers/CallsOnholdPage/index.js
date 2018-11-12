@@ -84,6 +84,9 @@ function mapToFunctions(_, {
     phone,
     ...props,
   });
+  const onBackButtonClick = () => {
+    routerInteraction.goBack();
+  };
   return {
     ...baseProps,
     async onMerge(sessionId) {

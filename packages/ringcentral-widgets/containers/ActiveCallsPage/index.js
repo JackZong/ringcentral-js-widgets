@@ -25,7 +25,6 @@ function mapToProps(_, {
   useV2,
 }) {
   const isWebRTC = callingSettings.callingMode === callingModes.webphone;
-
   return {
     currentLocale: locale.currentLocale,
     activeRingCalls: callMonitor.activeRingCalls,
@@ -80,6 +79,7 @@ function mapToFunctions(_, {
   getAvatarUrl,
   useV2,
 }) {
+  const isWebRTC = callingSettings.callingMode === callingModes.webphone;
   return {
     formatPhone(phoneNumber) {
       return formatNumber({
